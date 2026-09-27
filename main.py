@@ -15,6 +15,7 @@ from typing import Callable
 from aiohttp import web
 
 import i18n
+from discord_rpc import DiscordPresence
 from miner import Miner, MemoryLogHandler
 from version import APP_ID, APP_NAME, __version__
 
@@ -201,9 +202,11 @@ async def serve(miner: Miner, port: int, on_show: Callable[[], None] | None = No
                                            url=f"http://127.0.0.1:{port}"))
     if on_ready:
         on_ready()
+    presence = asyncio.create_task(DiscordPresence(miner).run())
     try:
         await miner.run()
     finally:
+        presence.cancel()
         await miner.tw.close()
         await runner.cleanup()
 

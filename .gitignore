@@ -1,6 +1,9 @@
 # Runtime data: login token (auth.json), settings, history, cache, logs. Never commit.
 data/
 
+# Desktop window profile (WebView2) when run from source
+webview/
+
 # Python
 .venv/
 __pycache__/

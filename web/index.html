@@ -42,6 +42,8 @@
   .btn.small { padding: 3px 9px; font-size: 12px; }
   .btn.danger { background: #3a1416; color: #ff8a8a; border: 1px solid #5a1d20; }
   .btn.gold { background: var(--gold); color: #222; }
+  .btn.coffee { background: #ffdd00; color: #111; }
+  .btn.coffee:hover { background: #f5d000; }
   .btn:disabled { opacity: .5; cursor: default; }
   input[type=text], input[type=number], select { background: var(--panel2); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 7px 10px; font-size: 14px; }
   input:focus, select:focus { outline: 1px solid var(--accent); }
@@ -143,6 +145,7 @@
   </nav>
   <div class="grow"></div>
   <div class="refreshing" id="refreshing"><span class="spin"></span><span id="refreshing-text"></span></div>
+  <a class="btn small coffee" id="donate" href="#" target="_blank" rel="noopener" data-i18n-title="ui.donate_tip">☕ <span data-i18n="ui.donate">Buy me a coffee</span></a>
   <div class="user"><select id="lang-sel" title="Language"></select><span id="user"></span></div>
 </header>
 <div class="banner" id="update-banner"></div>
@@ -226,6 +229,7 @@
           <label class="chk"><input type="checkbox" data-opt="allow_unlinked"> <span data-i18n="ui.opt_allow_unlinked"></span></label>
           <label class="chk"><input type="checkbox" data-opt="notifications"> <span data-i18n="ui.opt_notifications"></span></label>
           <label class="chk"><input type="checkbox" data-opt="check_updates"> <span data-i18n="ui.opt_check_updates"></span></label>
+          <label class="chk"><input type="checkbox" data-opt="discord_presence"> <span data-i18n="ui.opt_discord"></span></label>
           <p class="muted small" data-i18n="ui.link_help"></p>
         </div>
         <div class="card">
@@ -490,6 +494,7 @@ function renderNow() {
 
 function renderPanel() {
   $("#app-version").textContent = "v" + S.version;
+  $("#donate").href = S.donate_url;
   $("#status").textContent = S.status;
   $("#btn-pause").textContent = S.paused ? "▶ " + t("ui.resume") : "⏸ " + t("ui.pause");
   const st = S.stats;

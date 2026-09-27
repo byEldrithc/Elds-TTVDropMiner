@@ -87,8 +87,18 @@
     "update": "Download update (v{version})",
     "autostart": "Start with Windows",
     "data_folder": "Open data folder",
+    "donate": "Buy me a coffee ☕",
     "quit": "Quit",
     "hidden_hint": "Still running in the background. Click the tray icon to open it."
+  },
+  "discord": {
+    "idle": "Looking for drops",
+    "paused": "Paused",
+    "mining": "Mining drops: {game}",
+    "watching": "Watching {channel}",
+    "progress": "{drop} · {current}/{required} min",
+    "button_get": "Get the app",
+    "button_donate": "Buy me a coffee"
   },
   "ui": {
     "tab_panel": "Dashboard",
@@ -122,6 +132,8 @@
     "recent_events": "Recent events",
     "mining_queue": "Mining queue",
     "session_rewards": "Rewards this session",
+    "donate": "Buy me a coffee",
+    "donate_tip": "Support the development of this app",
     "see_history": "Full history →",
     "stat_active": "Active campaigns",
     "stat_minable": "Minable campaigns",
@@ -252,6 +264,7 @@
     "opt_allow_unlinked": "Also watch campaigns whose game account is not linked",
     "opt_notifications": "Show notifications (reward claimed, login required, new version)",
     "opt_check_updates": "Check for new versions on GitHub",
+    "opt_discord": "Show what I'm mining on my Discord profile (Rich Presence)",
     "link_help": "Most game rewards require your game account to be linked to Twitch. If it is not, the reward cannot be claimed even when the time is complete.",
     "excluded_games": "Excluded games",
     "excluded_help": "Campaigns of these games are not watched (unless a drop is prioritized).",

@@ -85,8 +85,18 @@
     "update": "Update herunterladen (v{version})",
     "autostart": "Mit Windows starten",
     "data_folder": "Datenordner öffnen",
+    "donate": "Spendier mir einen Kaffee ☕",
     "quit": "Beenden",
     "hidden_hint": "Läuft im Hintergrund weiter. Klicke auf das Tray-Symbol, um es zu öffnen."
+  },
+  "discord": {
+    "idle": "Sucht nach Drops",
+    "paused": "Pausiert",
+    "mining": "Farmt Drops: {game}",
+    "watching": "Schaut {channel}",
+    "progress": "{drop} · {current}/{required} Min.",
+    "button_get": "App holen",
+    "button_donate": "Kaffee spendieren"
   },
   "ui": {
     "tab_panel": "Dashboard",
@@ -120,6 +130,8 @@
     "recent_events": "Letzte Ereignisse",
     "mining_queue": "Farm-Warteschlange",
     "session_rewards": "Belohnungen dieser Sitzung",
+    "donate": "Spendier mir einen Kaffee",
+    "donate_tip": "Unterstütze die Entwicklung dieser App",
     "see_history": "Gesamter Verlauf →",
     "stat_active": "Aktive Kampagnen",
     "stat_minable": "Farmbare Kampagnen",
@@ -250,6 +262,7 @@
     "opt_allow_unlinked": "Auch Kampagnen ohne verknüpftes Spielkonto schauen",
     "opt_notifications": "Benachrichtigungen anzeigen (Belohnung abgeholt, Anmeldung nötig, neue Version)",
     "opt_check_updates": "Auf GitHub nach neuen Versionen suchen",
+    "opt_discord": "Auf meinem Discord-Profil zeigen, was ich farme (Rich Presence)",
     "link_help": "Die meisten Spielbelohnungen erfordern ein mit Twitch verknüpftes Spielkonto. Ohne Verknüpfung kann die Belohnung auch nach Ablauf der Zeit nicht abgeholt werden.",
     "excluded_games": "Ausgeschlossene Spiele",
     "excluded_help": "Kampagnen dieser Spiele werden nicht geschaut (außer ein Drop ist priorisiert).",

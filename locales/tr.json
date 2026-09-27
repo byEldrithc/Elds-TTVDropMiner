@@ -85,8 +85,18 @@
     "update": "Güncellemeyi indir (v{version})",
     "autostart": "Windows ile başlat",
     "data_folder": "Veri klasörünü aç",
+    "donate": "Bana bir kahve ısmarla ☕",
     "quit": "Çıkış",
     "hidden_hint": "Arka planda çalışmaya devam ediyor. Açmak için tepsi simgesine tıklayın."
+  },
+  "discord": {
+    "idle": "Drop arıyor",
+    "paused": "Duraklatıldı",
+    "mining": "Drop kazıyor: {game}",
+    "watching": "{channel} izleniyor",
+    "progress": "{drop} · {current}/{required} dk",
+    "button_get": "Uygulamayı indir",
+    "button_donate": "Bana kahve ısmarla"
   },
   "ui": {
     "tab_panel": "Panel",
@@ -120,6 +130,8 @@
     "recent_events": "Son olaylar",
     "mining_queue": "Madencilik sırası",
     "session_rewards": "Bu oturumda alınan ödüller",
+    "donate": "Bana bir kahve ısmarla",
+    "donate_tip": "Bu uygulamanın geliştirilmesine destek ol",
     "see_history": "Tüm geçmiş →",
     "stat_active": "Aktif kampanya",
     "stat_minable": "İzlenebilir kampanya",
@@ -247,6 +259,7 @@
     "opt_allow_unlinked": "Hesabı bağlı olmayan kampanyaları da izle",
     "opt_notifications": "Bildirim göster (ödül alındı, giriş gerekli, yeni sürüm)",
     "opt_check_updates": "GitHub'da yeni sürüm kontrolü yap",
+    "opt_discord": "Discord profilimde ne kazdığımı göster (Rich Presence)",
     "link_help": "Çoğu oyun ödülü, oyun hesabınızın Twitch'e bağlanmasını gerektirir. Bağlı değilse süre dolsa bile ödül alınamaz.",
     "excluded_games": "Hariç tutulan oyunlar",
     "excluded_help": "Bu oyunların kampanyaları (öncelikli drop yoksa) izlenmez.",

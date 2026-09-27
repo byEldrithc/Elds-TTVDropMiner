@@ -15,8 +15,9 @@
 [![Twitch Drops](https://img.shields.io/badge/Twitch-Drops-9146FF?style=flat-square&logo=twitch&logoColor=white)](https://www.twitch.tv/drops/campaigns)
 [![Languages](https://img.shields.io/badge/languages-7-2ea44f?style=flat-square&logo=googletranslate&logoColor=white)](#-languages)
 [![No telemetry](https://img.shields.io/badge/telemetry-none-2ea44f?style=flat-square)](TERMS.md#7-privacy)
+[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=flat-square&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/eldrithc_)
 
-[**⬇️ Download**](../../releases/latest) · [Features](#-features) · [Installation](#-installation) · [Usage](#-usage) · [Terms of Use](TERMS.md)
+[**⬇️ Download**](../../releases/latest) · [Features](#-features) · [Installation](#-installation) · [Usage](#-usage) · [Terms of Use](TERMS.md) · [☕ Support](#-support)
 
 <img src="docs/screenshots/dashboard.jpg" alt="Dashboard" width="850">
 
@@ -35,6 +36,7 @@
 | ⭐ **Priorities** | Pin drops, order games or exclude games. Mine only your picks, or your picks first and then everything else. |
 | 👀 **Custom watch** | Queue streamers to watch for a set time before drop mining continues. |
 | 📜 **Reward history** | Kept between sessions. Rewards you claimed earlier are imported from your Twitch inventory. |
+| 🎮 **Discord Rich Presence** | Shows the game and drop you're mining on your Discord profile. You can turn it off in the settings. |
 | 🔔 **Notifications** | Windows notifications for claimed rewards, required logins and new versions. |
 | 🪟 **Desktop app** | Runs in its own window, hides to the system tray and can start with Windows. |
 | 🌍 **7 languages** | Detects your Windows language automatically. |
@@ -141,6 +143,14 @@ The script does the following:
 
 The version number lives in `version.py`. So does the GitHub owner/repo used by the update
 check, which is skipped while those are placeholders.
+
+## ☕ Support
+
+The app is free and always will be. If it saved you some time and you'd like to say thanks,
+you can **[buy me a coffee](https://buymeacoffee.com/eldrithc_)**. The same link is in the app's
+header and in the tray menu.
+
+<a href="https://buymeacoffee.com/eldrithc_"><img src="https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=%E2%98%95&slug=eldrithc_&button_colour=FFDD00&font_colour=000000&font_family=Inter&outline_colour=000000&coffee_colour=ffffff" alt="Buy me a coffee" height="45"></a>
 
 ## 📄 License
 

@@ -3,6 +3,15 @@
 All notable changes to Eld's TTVDropMiner are listed here.
 The project uses [semantic versioning](https://semver.org/).
 
+## [1.1.1] - 2026-09-27
+
+### Added
+- **Discord Rich Presence.** While Discord is running, your profile shows the game and drop
+  being mined, its progress and how long it has been running, with the game's cover art.
+  You can turn it off under Priorities → Options.
+- **Buy me a coffee.** A support link is now in the dashboard header, in the tray menu and
+  in the README.
+
 ## [1.1.0] - 2026-09-27
 
 ### Added
@@ -27,5 +36,6 @@ The project uses [semantic versioning](https://semver.org/).
 
 First public release.
 
+[1.1.1]: https://github.com/byEldrithc/Elds-TTVDropMiner/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/byEldrithc/Elds-TTVDropMiner/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/byEldrithc/Elds-TTVDropMiner/releases/tag/v1.0.0

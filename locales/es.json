@@ -85,8 +85,18 @@
     "update": "Descargar actualización (v{version})",
     "autostart": "Iniciar con Windows",
     "data_folder": "Abrir carpeta de datos",
+    "donate": "Invítame a un café ☕",
     "quit": "Salir",
     "hidden_hint": "Sigue funcionando en segundo plano. Haz clic en el icono de la bandeja para abrirlo."
+  },
+  "discord": {
+    "idle": "Buscando drops",
+    "paused": "En pausa",
+    "mining": "Minando drops: {game}",
+    "watching": "Viendo a {channel}",
+    "progress": "{drop} · {current}/{required} min",
+    "button_get": "Descargar la app",
+    "button_donate": "Invítame a un café"
   },
   "ui": {
     "tab_panel": "Panel",
@@ -120,6 +130,8 @@
     "recent_events": "Eventos recientes",
     "mining_queue": "Cola de minado",
     "session_rewards": "Recompensas de esta sesión",
+    "donate": "Invítame a un café",
+    "donate_tip": "Apoya el desarrollo de esta app",
     "see_history": "Historial completo →",
     "stat_active": "Campañas activas",
     "stat_minable": "Campañas minables",
@@ -250,6 +262,7 @@
     "opt_allow_unlinked": "Ver también campañas cuya cuenta de juego no está vinculada",
     "opt_notifications": "Mostrar notificaciones (recompensa reclamada, inicio de sesión necesario, nueva versión)",
     "opt_check_updates": "Buscar nuevas versiones en GitHub",
+    "opt_discord": "Mostrar en mi perfil de Discord lo que estoy minando (Rich Presence)",
     "link_help": "La mayoría de las recompensas de juegos requieren vincular tu cuenta del juego con Twitch. Si no está vinculada, no podrás reclamarla aunque completes el tiempo.",
     "excluded_games": "Juegos excluidos",
     "excluded_help": "Las campañas de estos juegos no se ven (salvo que haya un drop priorizado).",

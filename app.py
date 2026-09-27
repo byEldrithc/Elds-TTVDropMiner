@@ -23,7 +23,7 @@ from PIL import Image
 import main as core
 from i18n import t
 from miner import Miner
-from version import APP_ID, APP_NAME
+from version import APP_ID, APP_NAME, DONATE_URL
 
 RUN_KEY = r"Software\Microsoft\Windows\CurrentVersion\Run"
 RUN_VALUE = APP_ID
@@ -166,6 +166,9 @@ class DesktopApp:
     def _open_data(self, *_):
         webbrowser.open(core.DATA_DIR.as_uri())
 
+    def _open_donate(self, *_):
+        webbrowser.open(DONATE_URL)
+
     def _open_update(self, *_):
         if self.miner and self.miner.update:
             webbrowser.open(self.miner.update["url"])
@@ -195,6 +198,7 @@ class DesktopApp:
             pystray.MenuItem(lambda _: t("tray.autostart"), self._toggle_autostart,
                              checked=lambda _: autostart_enabled()),
             pystray.MenuItem(lambda _: t("tray.data_folder"), self._open_data),
+            pystray.MenuItem(lambda _: t("tray.donate"), self._open_donate),
             pystray.Menu.SEPARATOR,
             pystray.MenuItem(lambda _: t("tray.quit"), self.quit),
         )

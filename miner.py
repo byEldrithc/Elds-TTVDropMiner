@@ -16,7 +16,7 @@ import aiohttp
 import i18n
 from i18n import t
 from twitch_api import LoginRequired, Twitch, TwitchError, new_id, parse_time, query, slugify
-from version import GITHUB_OWNER, GITHUB_REPO, __version__, github_configured, releases_url
+from version import DONATE_URL, GITHUB_OWNER, GITHUB_REPO, __version__, github_configured, releases_url
 
 log = logging.getLogger("miner")
 
@@ -40,6 +40,7 @@ DEFAULT_SETTINGS = {
     "language": "",             # "" = follow the Windows language
     "notifications": True,      # desktop / browser notifications
     "check_updates": True,      # look for new releases on GitHub
+    "discord_presence": True,   # show the mining status on the Discord profile
 }
 
 LOADING_STAGES = ["login", "inventory", "games", "channels", "deep", "finalize"]
@@ -919,6 +920,7 @@ class Miner:
             "lang": i18n.current(),
             "languages": i18n.languages(),
             "desktop": self.desktop,
+            "donate_url": DONATE_URL,
             "auth": self.auth,
             "status": self.status,
             "paused": self.paused,

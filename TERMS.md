@@ -67,6 +67,9 @@ Only the original project, published by Eldrithc_, may use the name without a su
   the author.
 - It only connects to Twitch's services, and to the GitHub API to check for new versions
   (you can turn this off in the settings).
+- If the Discord app is running, the Software tells it which game, drop and channel you are
+  watching, and Discord shows this on your profile (Rich Presence). You can turn this off in
+  the settings.
 - Your Twitch login token, settings and history are stored locally in the `data` folder. The
   token gives access to your Twitch account: **never share the `data` folder or `auth.json`**
   with anyone.

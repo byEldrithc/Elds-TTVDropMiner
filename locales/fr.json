@@ -85,8 +85,18 @@
     "update": "Télécharger la mise à jour (v{version})",
     "autostart": "Lancer avec Windows",
     "data_folder": "Ouvrir le dossier des données",
+    "donate": "Offre-moi un café ☕",
     "quit": "Quitter",
     "hidden_hint": "Toujours actif en arrière-plan. Cliquez sur l'icône de la barre des tâches pour l'ouvrir."
+  },
+  "discord": {
+    "idle": "Cherche des drops",
+    "paused": "En pause",
+    "mining": "Farme des drops : {game}",
+    "watching": "Regarde {channel}",
+    "progress": "{drop} · {current}/{required} min",
+    "button_get": "Obtenir l'app",
+    "button_donate": "Offre-moi un café"
   },
   "ui": {
     "tab_panel": "Tableau de bord",
@@ -120,6 +130,8 @@
     "recent_events": "Événements récents",
     "mining_queue": "File de farm",
     "session_rewards": "Récompenses de cette session",
+    "donate": "Offre-moi un café",
+    "donate_tip": "Soutenir le développement de cette application",
     "see_history": "Historique complet →",
     "stat_active": "Campagnes actives",
     "stat_minable": "Campagnes farmables",
@@ -250,6 +262,7 @@
     "opt_allow_unlinked": "Regarder aussi les campagnes dont le compte de jeu n'est pas lié",
     "opt_notifications": "Afficher les notifications (récompense récupérée, connexion requise, nouvelle version)",
     "opt_check_updates": "Rechercher les nouvelles versions sur GitHub",
+    "opt_discord": "Afficher ce que je farme sur mon profil Discord (Rich Presence)",
     "link_help": "La plupart des récompenses de jeux exigent que votre compte de jeu soit lié à Twitch. Sinon, la récompense ne peut pas être récupérée même si le temps est atteint.",
     "excluded_games": "Jeux exclus",
     "excluded_help": "Les campagnes de ces jeux ne sont pas regardées (sauf si un drop est priorisé).",
