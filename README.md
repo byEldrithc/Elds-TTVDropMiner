@@ -142,18 +142,6 @@ The script does the following:
 The version number lives in `version.py`. So does the GitHub owner/repo used by the update
 check, which is skipped while those are placeholders.
 
-## 🗂️ Project layout
-
-| File | Purpose |
-|---|---|
-| `app.py` | Desktop app: window (WebView2), tray icon, start with Windows |
-| `main.py` | Local web server and API. Also runs on its own in browser mode |
-| `miner.py` | Mining engine: campaign ranking, channel selection, progress, claiming, history |
-| `twitch_api.py` | Client for Twitch's GQL API: login, campaign discovery, watch signal |
-| `i18n.py`, `locales/` | Translations |
-| `web/index.html` | The dashboard (single page, no build step) |
-| `version.py` | App name, version, GitHub repository |
-
 ## 📄 License
 
 Copyright (c) 2026 **Eldrithc_**. Licensed under the
