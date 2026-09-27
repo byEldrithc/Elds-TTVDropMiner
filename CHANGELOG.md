@@ -3,7 +3,7 @@
 All notable changes to Eld's TTVDropMiner are listed here.
 The project uses [semantic versioning](https://semver.org/).
 
-## [Unreleased]
+## [1.1.0] - 2026-09-27
 
 ### Added
 - **Copy button for the login code.** The Twitch sign-in card now has a "Copy code" button,
@@ -27,5 +27,5 @@ The project uses [semantic versioning](https://semver.org/).
 
 First public release.
 
-[Unreleased]: https://github.com/byEldrithc/Elds-TTVDropMiner/compare/v1.0.0...HEAD
+[1.1.0]: https://github.com/byEldrithc/Elds-TTVDropMiner/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/byEldrithc/Elds-TTVDropMiner/releases/tag/v1.0.0

@@ -2,7 +2,7 @@
 
 APP_NAME = "Eld's TTVDropMiner"
 APP_ID = "EldsTTVDropMiner"      # file/folder/registry safe name
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 
 # Used by the update checker. The check is skipped while these are placeholders.
 GITHUB_OWNER = "byEldrithc"
