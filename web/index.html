@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="darkreader-lock">
+<meta name="color-scheme" content="dark">
+<title>Eld's TTVDropMiner</title>
+<link rel="icon" href="/assets/icon.png">
+<style>
+  :root {
+    --bg: #0e0e10; --panel: #18181b; --panel2: #1f1f23; --line: #2f2f35;
+    --text: #efeff1; --muted: #adadb8; --accent: #9147ff; --accent2: #772ce8;
+    --ok: #00c07f; --warn: #f5a623; --bad: #eb0400; --gold: #ffd37a;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.45 "Segoe UI", system-ui, sans-serif; }
+  a { color: #bf94ff; }
+  header { display: flex; align-items: center; gap: 16px; padding: 10px 20px; background: var(--panel); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 10; flex-wrap: wrap; }
+  header h1 { font-size: 17px; margin: 0; white-space: nowrap; display: flex; align-items: center; gap: 8px; }
+  header h1 img { width: 24px; height: 24px; }
+  header h1 .brand span { color: var(--accent); }
+  header h1 small { color: var(--muted); font-weight: 400; font-size: 11px; }
+  nav { display: flex; gap: 4px; flex-wrap: wrap; }
+  nav button { background: none; border: none; color: var(--muted); padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; }
+  nav button.active, nav button:hover { background: var(--panel2); color: var(--text); }
+  nav button.active { box-shadow: inset 0 -2px 0 var(--accent); }
+  .grow { flex: 1; }
+  .user { color: var(--muted); font-size: 13px; display: flex; align-items: center; gap: 10px; }
+  .user select { padding: 4px 8px; font-size: 12.5px; }
+  main { padding: 20px; max-width: 1300px; margin: 0 auto; }
+  .tab { display: none; } .tab.active { display: block; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+  .card h2 { font-size: 15px; margin: 0 0 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  .row { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+  .cols { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
+  @media (max-width: 900px) { .cols { grid-template-columns: 1fr; } }
+  .btn { background: var(--accent); color: #fff; border: none; padding: 7px 14px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 13px; text-decoration: none; display: inline-block; }
+  .btn:hover { background: var(--accent2); }
+  .btn.sec { background: var(--panel2); border: 1px solid var(--line); color: var(--text); }
+  .btn.sec:hover { background: #2a2a30; }
+  .btn.small { padding: 3px 9px; font-size: 12px; }
+  .btn.danger { background: #3a1416; color: #ff8a8a; border: 1px solid #5a1d20; }
+  .btn.gold { background: var(--gold); color: #222; }
+  .btn:disabled { opacity: .5; cursor: default; }
+  input[type=text], input[type=number], select { background: var(--panel2); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 7px 10px; font-size: 14px; }
+  input:focus, select:focus { outline: 1px solid var(--accent); }
+  label.chk { display: flex; gap: 8px; align-items: center; cursor: pointer; margin: 6px 0; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 11.5px; font-weight: 600; background: var(--panel2); border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+  .badge.ok { color: var(--ok); border-color: #0b5e41; background: #0b2a1f; }
+  .badge.warn { color: var(--warn); border-color: #6b4a10; background: #2d220c; }
+  .badge.bad { color: #ff6b6b; border-color: #5a1d20; background: #2a1012; }
+  .badge.acc { color: #cfb0ff; border-color: #4b2a85; background: #24173b; }
+  .badge.gold { color: var(--gold); border-color: #6b5520; background: #2d2610; }
+  .muted { color: var(--muted); } .small { font-size: 12.5px; }
+  .bar { height: 10px; background: #2a2a30; border-radius: 99px; overflow: hidden; min-width: 120px; }
+  .bar > div { height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent)); border-radius: 99px; transition: width .5s; }
+  .bar.done > div { background: var(--ok); }
+  .stat { background: var(--panel2); border-radius: 8px; padding: 12px 16px; min-width: 130px; flex: 1; }
+  .stat b { display: block; font-size: 24px; }
+  .stat span { color: var(--muted); font-size: 12px; }
+  .login-code { font-size: 40px; font-weight: 800; letter-spacing: .25em; color: var(--gold); font-family: Consolas, monospace; margin: 10px 0; }
+  .now { display: flex; gap: 16px; align-items: flex-start; }
+  .now img.box { width: 96px; border-radius: 6px; }
+  .now .title { font-size: 20px; font-weight: 700; }
+  .reward-img { width: 56px; height: 56px; border-radius: 6px; background: #000; object-fit: contain; border: 1px solid var(--line); }
+  .game { margin-bottom: 22px; }
+  .game-head { display: flex; gap: 14px; align-items: center; padding: 10px 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px 10px 0 0; flex-wrap: wrap; }
+  .game-head img { width: 44px; border-radius: 4px; }
+  .game-head .name { font-size: 18px; font-weight: 700; }
+  .game-body { border: 1px solid var(--line); border-top: none; border-radius: 0 0 10px 10px; padding: 12px; background: #141417; }
+  .camp { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px; margin-bottom: 12px; }
+  .camp.dim { opacity: .6; }
+  .camp-head { display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap; }
+  .camp-head .cn { font-size: 16px; font-weight: 700; }
+  .camp-meta { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0; }
+  .drops { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 10px; margin-top: 10px; }
+  .drop { background: var(--panel2); border: 1px solid var(--line); border-radius: 8px; padding: 10px; display: flex; gap: 10px; }
+  .drop.pinned { border-color: var(--gold); box-shadow: 0 0 0 1px #6b5520 inset; }
+  .drop.claimed { opacity: .65; }
+  .drop .info { flex: 1; min-width: 0; }
+  .drop .dn { font-weight: 700; }
+  .drop .benefits { display: flex; gap: 6px; flex-direction: column; }
+  .star { background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 6px; cursor: pointer; font-size: 16px; padding: 0 7px; height: 28px; }
+  .star.on { color: var(--gold); border-color: #6b5520; background: #2d2610; }
+  .list { list-style: none; padding: 0; margin: 0; }
+  .list li { display: flex; gap: 10px; align-items: center; padding: 8px 10px; background: var(--panel2); border: 1px solid var(--line); border-radius: 6px; margin-bottom: 6px; }
+  .list li .t { flex: 1; min-width: 0; }
+  .logs { font-family: Consolas, monospace; font-size: 12.5px; max-height: 70vh; overflow: auto; background: #0a0a0c; padding: 10px; border-radius: 8px; border: 1px solid var(--line); }
+  .logs div { white-space: pre-wrap; padding: 1px 0; }
+  .lv-WARNING { color: var(--warn); } .lv-ERROR { color: #ff6b6b; }
+  .filters { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+  details summary { cursor: pointer; color: var(--muted); }
+  .acl { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .empty { text-align: center; color: var(--muted); padding: 30px; }
+  .toast { position: fixed; bottom: 20px; right: 20px; background: var(--panel2); border: 1px solid var(--accent); padding: 10px 16px; border-radius: 8px; display: none; z-index: 50; max-width: 420px; }
+  .banner { display: none; align-items: center; gap: 12px; padding: 8px 20px; background: #24173b; border-bottom: 1px solid #4b2a85; color: #e3d2ff; flex-wrap: wrap; }
+  .banner.show { display: flex; }
+  .refreshing { color: var(--muted); font-size: 12px; display: none; align-items: center; gap: 6px; }
+  .refreshing.show { display: flex; }
+  .spin { width: 12px; height: 12px; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; display: inline-block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  /* loading screen */
+  #loading { position: fixed; inset: 0; background: var(--bg); z-index: 100; display: flex; align-items: center; justify-content: center; transition: opacity .35s; }
+  #loading.hide { opacity: 0; pointer-events: none; }
+  .ld-box { width: min(440px, 90vw); text-align: center; }
+  .ld-box img { width: 84px; height: 84px; animation: pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse { 50% { transform: scale(1.06); filter: brightness(1.15); } }
+  .ld-box h2 { margin: 14px 0 2px; font-size: 22px; }
+  .ld-steps { text-align: left; margin: 22px auto 14px; display: grid; gap: 8px; }
+  .ld-step { display: flex; align-items: center; gap: 10px; color: var(--muted); }
+  .ld-step .ic { width: 18px; text-align: center; }
+  .ld-step.done { color: var(--text); } .ld-step.done .ic { color: var(--ok); }
+  .ld-step.active { color: var(--text); font-weight: 600; }
+  .ld-step .cnt { margin-left: auto; font-size: 12px; color: var(--muted); font-weight: 400; }
+  .hist-day { margin: 18px 0 8px; color: var(--muted); font-size: 12.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+  .hist-item { display: flex; gap: 12px; align-items: center; padding: 8px 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; margin-bottom: 6px; }
+  .hist-item .reward-img { width: 44px; height: 44px; }
+</style>
+</head>
+<body>
+<div id="loading">
+  <div class="ld-box">
+    <img src="/assets/icon.png" alt="">
+    <h2>Eld's TTVDropMiner</h2>
+    <div class="muted small" id="ld-version"></div>
+    <div class="ld-steps" id="ld-steps"><div class="ld-step active"><span class="ic"><span class="spin"></span></span><span data-i18n="ui.loading_connect">Starting...</span></div></div>
+    <div class="bar" id="ld-bar" style="visibility:hidden"><div style="width:0"></div></div>
+    <p class="muted small" data-i18n="ui.loading_hint">The first scan checks thousands of streams for drops and can take a few seconds.</p>
+  </div>
+</div>
+
+<header>
+  <h1><img src="/assets/icon.png" alt=""><span class="brand">Eld's <span>TTV</span>DropMiner</span><small id="app-version"></small></h1>
+  <nav id="nav">
+    <button data-tab="panel" class="active" data-i18n="ui.tab_panel">Dashboard</button>
+    <button data-tab="drops" data-i18n="ui.tab_drops">Drops</button>
+    <button data-tab="prio" data-i18n="ui.tab_prio">Priorities</button>
+    <button data-tab="custom" data-i18n="ui.tab_custom">Custom Watch</button>
+    <button data-tab="history" data-i18n="ui.tab_history">History</button>
+    <button data-tab="logs" data-i18n="ui.tab_logs">Log</button>
+  </nav>
+  <div class="grow"></div>
+  <div class="refreshing" id="refreshing"><span class="spin"></span><span id="refreshing-text"></span></div>
+  <div class="user"><select id="lang-sel" title="Language"></select><span id="user"></span></div>
+</header>
+<div class="banner" id="update-banner"></div>
+
+<main>
+  <!-- DASHBOARD -->
+  <section class="tab active" id="tab-panel">
+    <div id="login-card"></div>
+    <div class="card">
+      <div class="row">
+        <div class="grow"><b data-i18n="ui.status">Status:</b> <span id="status">-</span></div>
+        <button class="btn sec" id="btn-pause"></button>
+        <button class="btn sec" id="btn-switch" data-i18n="ui.switch_channel" data-i18n-title="ui.switch_channel_tip">Switch channel</button>
+        <button class="btn sec" id="btn-refresh" data-i18n="ui.refresh_campaigns">Refresh campaigns</button>
+      </div>
+    </div>
+    <div class="row" id="stats" style="margin-bottom:16px"></div>
+    <div class="cols">
+      <div>
+        <div class="card"><h2 data-i18n="ui.now_watching">Now watching</h2><div id="now"></div></div>
+        <div class="card"><h2 data-i18n="ui.recent_events">Recent events</h2><div class="logs" id="mini-logs" style="max-height:260px"></div></div>
+      </div>
+      <div>
+        <div class="card"><h2 data-i18n="ui.mining_queue">Mining queue</h2><div id="queue-preview"></div></div>
+        <div class="card"><h2 data-i18n="ui.session_rewards">Rewards this session</h2><div id="claimed"></div>
+          <button class="btn sec small" style="margin-top:8px" data-goto="history" data-i18n="ui.see_history">Full history →</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DROPS -->
+  <section class="tab" id="tab-drops">
+    <div class="filters">
+      <input type="text" id="f-search" data-i18n-ph="ui.search_campaigns" style="min-width:260px">
+      <select id="f-game"></select>
+      <select id="f-state">
+        <option value="active" data-i18n="ui.filter_active">Active campaigns</option>
+        <option value="upcoming" data-i18n="ui.filter_upcoming">Upcoming campaigns</option>
+        <option value="all" data-i18n="ui.filter_all">All</option>
+      </select>
+      <label class="chk"><input type="checkbox" id="f-hide-done" checked> <span data-i18n="ui.hide_done">Hide completed</span></label>
+      <label class="chk"><input type="checkbox" id="f-minable"> <span data-i18n="ui.only_minable">Only minable</span></label>
+      <div class="grow"></div>
+      <span class="muted small" id="camp-updated"></span>
+    </div>
+    <div id="campaigns"><div class="empty" data-i18n="ui.loading">Loading...</div></div>
+  </section>
+
+  <!-- PRIORITIES -->
+  <section class="tab" id="tab-prio">
+    <div class="cols">
+      <div>
+        <div class="card">
+          <h2 data-i18n="ui.pinned_drops">Priority drops</h2>
+          <p class="muted small" data-i18n="ui.pinned_help"></p>
+          <ul class="list" id="pinned-list"></ul>
+        </div>
+        <div class="card">
+          <h2 data-i18n="ui.game_priority">Game priority</h2>
+          <p class="muted small" data-i18n="ui.game_priority_help"></p>
+          <div class="row" style="margin-bottom:10px">
+            <select id="add-game-sel"></select>
+            <input type="text" id="add-game-txt" data-i18n-ph="ui.or_type_game">
+            <button class="btn" id="add-game-btn" data-i18n="ui.add">Add</button>
+          </div>
+          <ul class="list" id="game-list"></ul>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <h2 data-i18n="ui.mode">Mode</h2>
+          <label class="chk"><input type="radio" name="mode" value="priority_first"> <span data-i18n="ui.mode_first"></span></label>
+          <label class="chk"><input type="radio" name="mode" value="priority_only"> <span data-i18n="ui.mode_only"></span></label>
+        </div>
+        <div class="card">
+          <h2 data-i18n="ui.options">Options</h2>
+          <label class="chk"><input type="checkbox" data-opt="auto_claim"> <span data-i18n="ui.opt_auto_claim"></span></label>
+          <label class="chk"><input type="checkbox" data-opt="claim_points"> <span data-i18n="ui.opt_claim_points"></span></label>
+          <label class="chk"><input type="checkbox" data-opt="custom_fallback_drops"> <span data-i18n="ui.opt_custom_fallback"></span></label>
+          <label class="chk"><input type="checkbox" data-opt="allow_unlinked"> <span data-i18n="ui.opt_allow_unlinked"></span></label>
+          <label class="chk"><input type="checkbox" data-opt="notifications"> <span data-i18n="ui.opt_notifications"></span></label>
+          <label class="chk"><input type="checkbox" data-opt="check_updates"> <span data-i18n="ui.opt_check_updates"></span></label>
+          <p class="muted small" data-i18n="ui.link_help"></p>
+        </div>
+        <div class="card">
+          <h2 data-i18n="ui.excluded_games">Excluded games</h2>
+          <p class="muted small" data-i18n="ui.excluded_help"></p>
+          <div class="row" style="margin-bottom:10px">
+            <select id="ex-game-sel"></select>
+            <button class="btn sec" id="ex-game-btn" data-i18n="ui.exclude">Exclude</button>
+          </div>
+          <ul class="list" id="ex-list"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CUSTOM WATCH -->
+  <section class="tab" id="tab-custom">
+    <div class="card">
+      <h2 data-i18n="ui.watch_streamer">Watch a streamer</h2>
+      <p class="muted small" data-i18n="ui.custom_help"></p>
+      <div class="row">
+        <input type="text" id="c-channel" data-i18n-ph="ui.channel_ph" style="min-width:260px">
+        <label><span data-i18n="ui.hours">Hours</span> <input type="number" id="c-hours" min="0" value="1" style="width:70px"></label>
+        <label><span data-i18n="ui.minutes">Minutes</span> <input type="number" id="c-mins" min="0" max="59" value="0" style="width:70px"></label>
+        <label class="chk"><input type="checkbox" id="c-unlimited"> <span data-i18n="ui.unlimited">Unlimited</span></label>
+        <button class="btn" id="c-add" data-i18n="ui.add_to_list">Add to list</button>
+      </div>
+    </div>
+    <div class="card"><h2 data-i18n="ui.watch_list">Watch list</h2><ul class="list" id="custom-list"></ul></div>
+    <div class="card"><h2 data-i18n="ui.watch_history">History</h2><ul class="list" id="custom-history"></ul></div>
+  </section>
+
+  <!-- REWARD HISTORY -->
+  <section class="tab" id="tab-history">
+    <div class="row" id="hist-stats" style="margin-bottom:16px"></div>
+    <div class="filters">
+      <input type="text" id="h-search" data-i18n-ph="ui.search_history" style="min-width:260px">
+      <select id="h-game"></select>
+      <select id="h-period">
+        <option value="0" data-i18n="ui.period_all">All time</option>
+        <option value="7" data-i18n="ui.period_7">Last 7 days</option>
+        <option value="30" data-i18n="ui.period_30">Last 30 days</option>
+        <option value="90" data-i18n="ui.period_90">Last 90 days</option>
+      </select>
+    </div>
+    <div id="history"><div class="empty" data-i18n="ui.loading">Loading...</div></div>
+  </section>
+
+  <!-- LOG -->
+  <section class="tab" id="tab-logs">
+    <div class="card"><h2 data-i18n="ui.tab_logs">Log</h2><div class="logs" id="logs"></div></div>
+  </section>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let S = null, CAMPS = [], campVersion = -1, HIST = [], histVersion = -1;
+let L = {}, curLang = null, lastEventId = null;
+
+// ---------------------------------------------------------------- i18n
+function t(key, p) {
+  // "<key>_one" is used for a count of 1 when a language defines it (English plurals)
+  let s = (p && p.n === 1 && L[key + "_one"]) || L[key] || key;
+  if (p) s = s.replace(/\{(\w+)\}/g, (m, k) => p[k] ?? m);
+  return s;
+}
+function applyStatic() {
+  document.querySelectorAll("[data-i18n]").forEach(e => { if (L[e.dataset.i18n]) e.textContent = L[e.dataset.i18n]; });
+  document.querySelectorAll("[data-i18n-ph]").forEach(e => e.placeholder = t(e.dataset.i18nPh));
+  document.querySelectorAll("[data-i18n-title]").forEach(e => e.title = t(e.dataset.i18nTitle));
+  document.documentElement.lang = curLang;
+}
+async function loadLang(lang) {
+  const j = await (await fetch("/api/i18n/" + encodeURIComponent(lang))).json();
+  L = j.strings; curLang = lang;
+  applyStatic();
+  lastSettings = ""; campVersion = -1; histRendered = false;
+}
+const LOC = () => curLang || "en";
+
+async function api(path, data) {
+  const r = await fetch(path, data === undefined ? {} : {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(data)});
+  const j = await r.json();
+  if (j && j.ok === false) toast(j.error || t("ui.error"));
+  return j;
+}
+function toast(msg) { const el = $("#toast"); el.textContent = msg; el.style.display = "block"; clearTimeout(el._h); el._h = setTimeout(() => el.style.display = "none", 3500); }
+
+function fmtMin(m) {
+  m = Math.max(0, Math.round(m));
+  const d = Math.floor(m / 1440), h = Math.floor(m % 1440 / 60), mm = m % 60;
+  if (d) return t("ui.fmt_dh", {d, h});
+  if (h) return t("ui.fmt_hm", {h, m: mm});
+  return t("ui.fmt_m", {m: mm});
+}
+function fmtDate(iso) { return iso ? new Date(iso).toLocaleString(LOC(), {day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit"}) : "-"; }
+function fmtDay(iso) { return new Date(iso).toLocaleDateString(LOC(), {weekday: "long", day: "numeric", month: "long", year: "numeric"}); }
+function fmtTime(iso) { return new Date(iso).toLocaleTimeString(LOC(), {hour: "2-digit", minute: "2-digit"}); }
+function timeLeft(iso) {
+  if (!iso) return "-";
+  const m = (new Date(iso) - Date.now()) / 60000;
+  return m <= 0 ? t("ui.expired") : t("ui.time_left", {time: fmtMin(m)});
+}
+function timeUntil(iso) { const m = (new Date(iso) - Date.now()) / 60000; return fmtMin(m); }
+function eta(mins) { const d = new Date(Date.now() + mins * 60000); return d.toLocaleString(LOC(), {weekday: "short", hour: "2-digit", minute: "2-digit"}); }
+function pct(a, b) { return b > 0 ? Math.min(100, a / b * 100) : 0; }
+function bar(a, b, done) { return `<div class="bar ${done ? "done" : ""}"><div style="width:${pct(a, b).toFixed(1)}%"></div></div>`; }
+function num(n) { return Number(n || 0).toLocaleString(LOC()); }
+
+const DROP_STATE_CLS = {claimed: "ok", claimable: "gold", pending_claim: "gold", in_progress: "acc", available: "",
+  locked: "warn", not_started: "warn", expired: "bad", sub_only: "warn", unavailable: "bad"};
+const dropState = s => [t("ui.state_" + s), DROP_STATE_CLS[s] ?? ""];
+const benefitType = ty => ({BADGE: t("ui.benefit_badge"), EMOTE: t("ui.benefit_emote"), DIRECT_ENTITLEMENT: t("ui.benefit_ingame")})[ty] || esc(ty || "");
+
+// ---------------------------------------------------------------- tabs
+function openTab(name) {
+  document.querySelectorAll("#nav button").forEach(x => x.classList.toggle("active", x.dataset.tab === name));
+  document.querySelectorAll(".tab").forEach(tb => tb.classList.toggle("active", tb.id === "tab-" + name));
+  try { localStorage.setItem("tab", name); } catch (e) {}
+  if (name === "drops") renderCampaigns();
+  if (name === "history") loadHistory();
+}
+document.querySelectorAll("#nav button").forEach(b => b.onclick = () => openTab(b.dataset.tab));
+document.querySelectorAll("[data-goto]").forEach(b => b.onclick = () => openTab(b.dataset.goto));
+try { const tb = localStorage.getItem("tab"); if (tb && $(`#nav button[data-tab="${tb}"]`)) openTab(tb); } catch (e) {}
+const tabActive = name => $("#tab-" + name).classList.contains("active");
+
+// ---------------------------------------------------------------- loading screen / banners
+function renderLoading() {
+  const ld = S.loading, auth = S.auth.state;
+  const show = ld.first && auth !== "code" && auth !== "logged_out";
+  $("#loading").classList.toggle("hide", !show);
+  $("#ld-version").textContent = "v" + S.version;
+  if (show) {
+    const idx = ld.stages.indexOf(ld.stage);
+    $("#ld-steps").innerHTML = ld.stages.map((st, i) => {
+      const cls = i < idx ? "done" : i === idx ? "active" : "";
+      const ic = i < idx ? "✓" : i === idx ? '<span class="spin"></span>' : "○";
+      const cnt = i === idx && ld.total ? `<span class="cnt">${num(ld.done)} / ${num(ld.total)}</span>` : "";
+      return `<div class="ld-step ${cls}"><span class="ic">${ic}</span><span>${esc(t("ui.stage_" + st))}</span>${cnt}</div>`;
+    }).join("");
+    const pb = $("#ld-bar");
+    pb.style.visibility = ld.total ? "visible" : "hidden";
+    pb.firstElementChild.style.width = pct(ld.done, ld.total).toFixed(1) + "%";
+  }
+  const r = $("#refreshing");
+  r.classList.toggle("show", ld.active && !ld.first);
+  if (ld.active && !ld.first) $("#refreshing-text").textContent = t("ui.refreshing") + (ld.total ? ` ${pct(ld.done, ld.total).toFixed(0)}%` : "");
+}
+function renderUpdate() {
+  const b = $("#update-banner"), u = S.update;
+  b.classList.toggle("show", !!u);
+  if (u && b.dataset.v !== u.version + curLang) {
+    b.dataset.v = u.version + curLang;
+    b.innerHTML = `🚀 <span class="grow">${esc(t("ui.update_banner", {version: u.version, current: S.version}))}</span>
+      <a class="btn small" href="${esc(u.url)}" target="_blank" rel="noopener">${esc(t("ui.update_download"))} ↗</a>`;
+  }
+}
+function handleEvents() {
+  const evs = S.events || [];
+  const maxId = evs.reduce((m, e) => Math.max(m, e.id), 0);
+  if (lastEventId === null) { lastEventId = maxId; return; }   // do not replay old events on page load
+  for (const ev of evs.filter(e => e.id > lastEventId)) {
+    toast(ev.title + " — " + ev.body);
+    // the desktop app shows notifications through the tray; in the browser use web notifications
+    if (!S.desktop && "Notification" in window && Notification.permission === "granted")
+      try { new Notification(ev.title, {body: ev.body, icon: "/assets/icon.png"}); } catch (e) {}
+  }
+  lastEventId = Math.max(lastEventId, maxId);
+}
+
+// ---------------------------------------------------------------- dashboard
+function renderLogin() {
+  const a = S.auth, el = $("#login-card");
+  if (a.state === "logged_in") {
+    el.innerHTML = "";
+    $("#user").innerHTML = `👤 <b>${esc(a.login)}</b> <button class="btn sec small" id="btn-logout">${esc(t("ui.logout"))}</button>`;
+    $("#btn-logout").onclick = () => { if (confirm(t("ui.logout_confirm"))) api("/api/logout", {}); };
+    return;
+  }
+  $("#user").textContent = t("ui.not_logged_in");
+  if (a.state === "code") {
+    el.innerHTML = `<div class="card" style="border-color:var(--accent)">
+      <h2>${esc(t("ui.login_title"))}</h2>
+      <p>${t("ui.login_steps")}</p>
+      <div class="login-code">${esc(a.code)}</div>
+      <a class="btn" href="${esc(a.uri)}" target="_blank" rel="noopener">${esc(t("ui.login_button"))} ↗</a>
+      <p class="muted small">${esc(t("ui.login_expires", {time: timeUntil(a.expires_at)}))}</p>
+    </div>`;
+  } else {
+    el.innerHTML = `<div class="card"><h2>${esc(t("ui.login"))}</h2><p class="muted">${esc(t("ui.login_preparing"))}</p></div>`;
+  }
+}
+
+function renderNow() {
+  const c = S.current, el = $("#now");
+  if (!c) { el.innerHTML = `<div class="empty">${esc(S.status)}</div>`; return; }
+  const ch = c.channel, d = c.drop;
+  let html = `<div class="now">`;
+  if (d && d.box_art) html += `<img class="box" src="${esc(d.box_art)}">`;
+  html += `<div class="grow">
+    <div class="row" style="gap:8px">${c.mode === "custom" ? `<span class="badge gold">${esc(t("ui.badge_custom"))}</span>` : `<span class="badge acc">${esc(t("ui.badge_mining"))}</span>`}
+      ${c.last_watch_ok === false ? `<span class="badge bad">${esc(t("ui.badge_watch_failed"))}</span>` : c.last_watch_ok ? `<span class="badge ok">${esc(t("ui.badge_watching"))}</span>` : ""}</div>
+    <div class="title" style="margin-top:6px"><a href="https://www.twitch.tv/${esc(ch.login)}" target="_blank">${esc(ch.display_name)}</a></div>
+    <div class="muted">${esc(ch.game ? ch.game.name : t("ui.no_category"))} · 👁 ${esc(t("ui.viewers", {n: num(ch.viewers)}))}</div>
+    <div class="small muted" style="margin:4px 0">${esc(ch.title)}</div>
+    <div class="small muted">${esc(t("ui.started_at", {time: fmtDate(c.since)}))} · ${esc(t("ui.last_signal", {time: fmtDate(c.last_watch)}))}</div>`;
+  if (d) {
+    const rem = d.required - d.current;
+    html += `<div style="margin-top:12px;padding:10px;background:var(--panel2);border-radius:8px">
+      <div class="row" style="gap:10px">${(d.benefits || []).map(b => `<img class="reward-img" alt="" onerror="this.style.opacity=.15" src="${esc(b.image)}" title="${esc(b.name)}">`).join("")}
+      <div class="grow"><b>${esc(d.name)}</b><div class="small muted">${esc(d.game)} · ${esc(d.campaign)}</div>
+      <div class="small">${(d.benefits || []).map(b => esc(b.name)).join(", ")}</div></div></div>
+      <div style="margin:8px 0">${bar(d.current, d.required)}</div>
+      <div class="row small"><span>${esc(t("ui.progress_min", {current: d.current, required: d.required, pct: pct(d.current, d.required).toFixed(0)}))}</span>
+      <span>${esc(t("ui.remaining"))}: <b>${fmtMin(rem)}</b></span><span class="muted">${esc(t("ui.eta", {time: eta(rem)}))}</span></div>
+      ${(c.extra_drops || []).length ? `<div class="small muted" style="margin-top:10px">${esc(t("ui.extra_drops"))}</div>` +
+        c.extra_drops.map(x => `<div class="small" style="margin-top:6px"><b>${esc(x.name)}</b> <span class="muted">· ${esc(x.game)} · ${esc(x.campaign)}</span>
+          <div style="margin:4px 0">${bar(x.current, x.required)}</div>${esc(t("ui.minutes_of", {current: x.current, required: x.required}))}</div>`).join("") : ""}</div>`;
+  } else if (c.campaign) {
+    html += `<div class="small" style="margin-top:10px">${esc(t("ui.waiting_progress", {campaign: c.campaign.name}))}</div>`;
+  } else if (c.mode === "custom") {
+    html += `<div class="small muted" style="margin-top:10px">${esc(t("ui.no_drop_here"))}</div>`;
+  }
+  if (c.mode === "custom" && S.custom_queue[0]) {
+    const it = S.custom_queue[0], w = it.watched_seconds / 60;
+    html += `<div style="margin-top:10px" class="small">${esc(t("ui.custom_time"))}: <b>${fmtMin(w)}</b> / ${it.minutes ? fmtMin(it.minutes) : esc(t("ui.unlimited_lc"))}
+      ${it.minutes ? bar(w, it.minutes) : ""}</div>`;
+  }
+  el.innerHTML = html + `</div></div>`;
+}
+
+function renderPanel() {
+  $("#app-version").textContent = "v" + S.version;
+  $("#status").textContent = S.status;
+  $("#btn-pause").textContent = S.paused ? "▶ " + t("ui.resume") : "⏸ " + t("ui.pause");
+  const st = S.stats;
+  $("#stats").innerHTML = [
+    [st.active, t("ui.stat_active")], [st.minable, t("ui.stat_minable")], [st.claimable, t("ui.stat_claimable")],
+    [S.claimed_session.length, t("ui.stat_session")], [S.points_claimed, t("ui.stat_points")],
+  ].map(([v, l]) => `<div class="stat"><b>${num(v)}</b><span>${esc(l)}</span></div>`).join("");
+  renderNow();
+  $("#queue-preview").innerHTML = S.queue_preview.length
+    ? `<ol style="margin:0;padding-left:20px">${S.queue_preview.map(q => `<li><b>${esc(q.game)}</b><div class="small muted">${esc(q.name)}</div></li>`).join("")}</ol>`
+    : `<div class="muted small">${esc(t("ui.queue_empty"))}</div>`;
+  $("#claimed").innerHTML = S.claimed_session.length
+    ? S.claimed_session.slice().reverse().map(c => `<div style="margin-bottom:6px">🎁 <b>${esc(c.rewards)}</b><div class="small muted">${esc(c.game)} · ${fmtDate(c.time)}</div></div>`).join("")
+    : `<div class="muted small">${esc(t("ui.none_yet"))}</div>`;
+  const logHtml = arr => arr.map(l => `<div class="lv-${l.level}">[${l.time}] ${esc(l.msg)}</div>`).join("");
+  const ml = $("#mini-logs"); ml.innerHTML = logHtml(S.logs.slice(-25)); ml.scrollTop = ml.scrollHeight;
+  const lg = $("#logs"), atBottom = lg.scrollTop + lg.clientHeight >= lg.scrollHeight - 30;
+  lg.innerHTML = logHtml(S.logs); if (atBottom) lg.scrollTop = lg.scrollHeight;
+}
+$("#btn-pause").onclick = () => api("/api/pause", {paused: !S.paused}).then(poll);
+$("#btn-switch").onclick = () => api("/api/switch", {}).then(() => toast(t("ui.toast_switching")));
+$("#btn-refresh").onclick = () => api("/api/refresh", {}).then(() => toast(t("ui.toast_refreshing")));
+
+// ---------------------------------------------------------------- drops
+["#f-search", "#f-game", "#f-state", "#f-hide-done", "#f-minable"].forEach(s => $(s).addEventListener("input", renderCampaigns));
+
+function campaignDone(c) { return c.drops.every(d => ["claimed", "sub_only", "unavailable", "expired"].includes(d.state)); }
+
+function renderCampaigns() {
+  if (!S) return;
+  const q = $("#f-search").value.trim().toLowerCase(), g = $("#f-game").value, st = $("#f-state").value;
+  const hideDone = $("#f-hide-done").checked, minable = $("#f-minable").checked;
+  const prio = S.settings.priority_games.map(x => x.toLowerCase()), excl = S.settings.excluded_games.map(x => x.toLowerCase());
+  let list = CAMPS.filter(c => (st === "all" || c.state === st) && (!g || c.game.name === g)
+    && (!hideDone || !campaignDone(c)) && (!minable || c.rank !== null)
+    && (!q || (c.game.name + " " + c.name + " " + c.drops.map(d => d.name + " " + d.benefits.map(b => b.name).join(" ")).join(" ")).toLowerCase().includes(q)));
+  const groups = {};
+  list.forEach(c => (groups[c.game.name] ||= []).push(c));
+  const names = Object.keys(groups).sort((a, b) => {
+    const ra = Math.min(...groups[a].map(c => c.rank ?? 1e9)), rb = Math.min(...groups[b].map(c => c.rank ?? 1e9));
+    return ra - rb || a.localeCompare(b, LOC());
+  });
+  if (!names.length) { $("#campaigns").innerHTML = `<div class="empty">${esc(CAMPS.length ? t("ui.no_match") : (S.auth.state === "logged_in" ? t("ui.campaigns_loading") : t("ui.login_first")))}</div>`; return; }
+  const openIds = new Set([...document.querySelectorAll("#campaigns details[open]")].map(d => d.dataset.cid));
+  $("#campaigns").innerHTML = names.map(name => {
+    const cs = groups[name].sort((a, b) => (a.rank ?? 1e9) - (b.rank ?? 1e9) || new Date(a.ends_at) - new Date(b.ends_at));
+    const lname = name.toLowerCase(), isP = prio.includes(lname), isX = excl.includes(lname);
+    return `<div class="game"><div class="game-head">
+      ${cs[0].game.box_art ? `<img src="${esc(cs[0].game.box_art)}">` : ""}
+      <div class="grow"><div class="name">${esc(name)}</div><div class="small muted">${esc(t("ui.n_campaigns", {n: cs.length}))}</div></div>
+      ${isP ? `<span class="badge gold">${esc(t("ui.priority_n", {n: prio.indexOf(lname) + 1}))}</span>` : ""}${isX ? `<span class="badge bad">${esc(t("ui.excluded"))}</span>` : ""}
+      <button class="btn small ${isP ? "sec" : ""}" data-gprio="${esc(name)}">${esc(isP ? t("ui.unprioritize") : "★ " + t("ui.prioritize_game"))}</button>
+      <button class="btn small ${isX ? "sec" : "danger"}" data-gex="${esc(name)}">${esc(isX ? t("ui.include") : t("ui.exclude"))}</button>
+    </div><div class="game-body">${cs.map(renderCamp).join("")}</div></div>`;
+  }).join("");
+  document.querySelectorAll("#campaigns details").forEach(d => { if (openIds.has(d.dataset.cid)) d.open = true; });
+  bindCampaignButtons();
+}
+
+function renderCamp(c) {
+  const total = c.drops.length, claimed = c.drops.filter(d => d.state === "claimed").length;
+  const stBadge = c.state === "active" ? `<span class="badge ok">${esc(t("ui.camp_active"))} · ${esc(timeLeft(c.ends_at))}</span>`
+    : c.state === "upcoming" ? `<span class="badge warn">${esc(t("ui.camp_starts_in", {time: timeUntil(c.starts_at)}))}</span>` : `<span class="badge bad">${esc(t("ui.camp_ended"))}</span>`;
+  const link = c.linked ? `<span class="badge ok">${esc(t("ui.linked"))} ✓</span>`
+    : c.eligible_by_badge ? `<span class="badge">${esc(t("ui.no_link_needed"))}</span>`
+    : `<span class="badge bad">${esc(t("ui.not_linked"))}</span>${c.link_url ? ` <a class="btn small gold" data-link="1" href="${esc(c.link_url)}" target="_blank">${esc(t("ui.link_account"))} ↗</a>` : ""} <button class="btn small sec" data-recheck="1">↻ ${esc(t("ui.recheck"))}</button>`;
+  const acl = c.acl.length ? `<details data-cid="${esc(c.id)}"><summary>${esc(t("ui.acl_only", {n: c.acl.length}))}</summary><div class="acl">${c.acl.map(a => `<a class="badge" href="https://twitch.tv/${esc(a.login)}" target="_blank">${esc(a.display_name)}</a>`).join("")}</div></details>`
+    : `<div class="small muted">${esc(t("ui.acl_all"))}</div>`;
+  return `<div class="camp ${c.state === "expired" || campaignDone(c) ? "dim" : ""}">
+    <div class="camp-head">
+      ${c.image ? `<img src="${esc(c.image)}" style="width:64px;height:64px;border-radius:6px;object-fit:cover">` : ""}
+      <div class="grow"><div class="cn">${esc(c.name)}</div>
+        <div class="camp-meta">${stBadge}${link}${c.rank !== null ? `<span class="badge acc">${esc(t("ui.queue_pos", {n: c.rank + 1}))}</span>` : ""}
+          <span class="badge">${esc(t("ui.drops_claimed", {claimed, total}))}</span>
+          ${c.offline && c.state === "active" ? `<span class="badge warn" title="${esc(t("ui.offline_tip"))}">${esc(t("ui.offline"))}</span>` : ""}</div>
+        <div class="small muted">📅 ${fmtDate(c.starts_at)} → ${fmtDate(c.ends_at)}${c.owner ? " · " + esc(t("ui.provider", {name: c.owner})) : ""}
+          ${c.details_url ? ` · <a href="${esc(c.details_url)}" target="_blank">${esc(t("ui.details"))} ↗</a>` : ""}</div>
+        ${c.description ? `<div class="small" style="margin-top:4px">${esc(c.description)}</div>` : ""}
+        ${acl}
+      </div>
+    </div>
+    <div class="drops">${c.drops.map(d => renderDrop(c, d)).join("")}</div>
+  </div>`;
+}
+
+function renderDrop(c, d) {
+  const [label, cls] = dropState(d.state);
+  const reqs = [];
+  if (d.required_minutes) reqs.push("⏱ " + t("ui.req_watch", {time: fmtMin(d.required_minutes)}));
+  if (d.required_subs) reqs.push("💜 " + t("ui.req_subs", {n: d.required_subs}));
+  if (d.precondition_names.length) reqs.push("🔒 " + t("ui.req_first", {names: d.precondition_names.join(", ")}));
+  const pinnable = !["claimed", "expired", "sub_only", "unavailable"].includes(d.state);
+  let prog = "";
+  if (d.required_minutes > 0) {
+    prog = `<div style="margin:6px 0">${bar(d.current_minutes, d.required_minutes, d.state === "claimed")}</div>
+      <div class="small">${esc(t("ui.progress_min", {current: d.current_minutes, required: d.required_minutes, pct: pct(d.current_minutes, d.required_minutes).toFixed(0)}))}
+      ${d.state !== "claimed" && d.remaining_minutes > 0 ? ` · ${esc(t("ui.remaining"))} <b>${fmtMin(d.remaining_minutes)}</b>` : ""}</div>`;
+    if (!d.achievable && d.state !== "claimed") prog += `<div class="small" style="color:var(--warn)">⚠ ${esc(t("ui.not_achievable"))}</div>`;
+  }
+  const dropWindow = d.ends_at && d.ends_at !== c.ends_at ? `<div class="small muted">${esc(t("ui.drop_window"))}: ${fmtDate(d.starts_at)} → ${fmtDate(d.ends_at)}</div>` : "";
+  return `<div class="drop ${d.pinned ? "pinned" : ""} ${d.state === "claimed" ? "claimed" : ""}">
+    <div class="benefits">${d.benefits.map(b => `<img class="reward-img" alt="" onerror="this.style.opacity=.15" src="${esc(b.image)}" title="${esc(b.name)}">`).join("")}</div>
+    <div class="info">
+      <div class="row" style="gap:6px;justify-content:space-between"><span class="dn">${esc(d.name)}</span><span class="badge ${cls}">${esc(label)}</span></div>
+      <div class="small">${d.benefits.map(b => `${esc(b.name)} <span class="muted">(${benefitType(b.type)}${b.limit > 1 ? ", x" + b.limit : ""})</span>`).join("<br>")}</div>
+      <div class="small muted" style="margin-top:4px">${esc(reqs.join(" · "))}</div>
+      ${dropWindow}${prog}
+      <div class="row" style="gap:6px;margin-top:6px">
+        ${pinnable ? `<button class="star ${d.pinned ? "on" : ""}" data-pin="${esc(d.id)}" data-on="${d.pinned ? 1 : 0}" title="${esc(t("ui.pin_tip"))}">${esc(d.pinned ? "★ " + t("ui.pinned") : "☆ " + t("ui.pin"))}</button>` : ""}
+        ${d.state === "claimable" ? `<button class="btn small gold" data-claim="${esc(d.id)}">${esc(t("ui.claim"))}</button>` : ""}
+      </div>
+    </div></div>`;
+}
+
+function bindCampaignButtons() {
+  document.querySelectorAll("[data-pin]").forEach(b => b.onclick = () => api("/api/pin", {drop_id: b.dataset.pin, pinned: b.dataset.on !== "1"}).then(forceReload));
+  document.querySelectorAll("[data-claim]").forEach(b => b.onclick = () => { b.disabled = true; api("/api/claim", {drop_id: b.dataset.claim}).then(j => { toast(j.claimed ? t("ui.toast_claimed") : t("ui.toast_claim_failed")); forceReload(); }); });
+  document.querySelectorAll("[data-recheck]").forEach(b => b.onclick = () => { b.disabled = true; b.textContent = t("ui.checking"); api("/api/refresh", {}); });
+  document.querySelectorAll("[data-gprio]").forEach(b => b.onclick = () => toggleList("priority_games", b.dataset.gprio));
+  document.querySelectorAll("[data-gex]").forEach(b => b.onclick = () => toggleList("excluded_games", b.dataset.gex));
+}
+
+async function saveSettings(patch) { await api("/api/settings", patch); forceReload(); }
+function toggleList(key, name) {
+  const arr = S.settings[key].slice(), i = arr.findIndex(x => x.toLowerCase() === name.toLowerCase());
+  if (i >= 0) arr.splice(i, 1); else arr.push(name);
+  const patch = {[key]: arr};
+  if (i < 0) { // a game added to one list is removed from the other
+    const other = key === "priority_games" ? "excluded_games" : "priority_games";
+    patch[other] = S.settings[other].filter(x => x.toLowerCase() !== name.toLowerCase());
+  }
+  saveSettings(patch);
+}
+function moveIn(key, i, dir) {
+  const arr = S.settings[key].slice(), j = i + dir;
+  if (j < 0 || j >= arr.length) return;
+  [arr[i], arr[j]] = [arr[j], arr[i]];
+  saveSettings({[key]: arr});
+}
+
+// ---------------------------------------------------------------- priorities
+function renderPrio() {
+  const s = S.settings;
+  document.querySelectorAll('input[name=mode]').forEach(r => r.checked = r.value === s.mode);
+  document.querySelectorAll('[data-opt]').forEach(c => c.checked = !!s[c.dataset.opt]);
+  const ctl = (key, i, n) => `<button class="btn sec small" data-mv="${key}|${i}|-1" ${i === 0 ? "disabled" : ""}>▲</button>
+    <button class="btn sec small" data-mv="${key}|${i}|1" ${i === n - 1 ? "disabled" : ""}>▼</button>`;
+  $("#pinned-list").innerHTML = s.priority_drops.length ? s.priority_drops.map((p, i, a) => `<li><b>${i + 1}.</b><div class="t"><b>${esc(p.name)}</b><div class="small muted">${esc(p.game)} · ${esc(p.campaign)}</div></div>
+    ${ctl("priority_drops", i, a.length)}<button class="btn danger small" data-unpin="${esc(p.id)}">${esc(t("ui.remove"))}</button></li>`).join("")
+    : `<li class="muted small">${esc(t("ui.no_pinned"))}</li>`;
+  $("#game-list").innerHTML = s.priority_games.length ? s.priority_games.map((g, i, a) => `<li><b>${i + 1}.</b><div class="t">${esc(g)}</div>
+    ${ctl("priority_games", i, a.length)}<button class="btn danger small" data-rm="priority_games|${esc(g)}">${esc(t("ui.remove"))}</button></li>`).join("")
+    : `<li class="muted small">${esc(t("ui.no_game_priority"))}</li>`;
+  $("#ex-list").innerHTML = s.excluded_games.length ? s.excluded_games.map(g => `<li><div class="t">${esc(g)}</div><button class="btn sec small" data-rm="excluded_games|${esc(g)}">${esc(t("ui.include"))}</button></li>`).join("")
+    : `<li class="muted small">${esc(t("ui.no_excluded"))}</li>`;
+  document.querySelectorAll("[data-mv]").forEach(b => b.onclick = () => { const [k, i, d] = b.dataset.mv.split("|"); moveIn(k, +i, +d); });
+  document.querySelectorAll("[data-unpin]").forEach(b => b.onclick = () => api("/api/pin", {drop_id: b.dataset.unpin, pinned: false}).then(forceReload));
+  document.querySelectorAll("[data-rm]").forEach(b => b.onclick = () => { const [k, g] = b.dataset.rm.split("|"); toggleList(k, g); });
+}
+function fillSelect(sel, first, items) {
+  const el = $(sel), v = el.value;
+  el.innerHTML = `<option value="">${esc(first)}</option>` + items.map(g => `<option>${esc(g)}</option>`).join("");
+  el.value = v;
+}
+function fillGameSelects() {
+  fillSelect("#add-game-sel", t("ui.pick_game"), S.games);
+  fillSelect("#ex-game-sel", t("ui.pick_game"), S.games);
+  fillSelect("#f-game", t("ui.all_games"), S.games);
+  const ls = $("#lang-sel");
+  ls.innerHTML = `<option value="">🌐 ${esc(t("ui.lang_auto"))}</option>` + S.languages.map(l => `<option value="${esc(l.code)}">${esc(l.name)}</option>`).join("");
+  ls.value = S.settings.language || "";
+}
+$("#lang-sel").onchange = e => saveSettings({language: e.target.value});
+document.querySelectorAll('input[name=mode]').forEach(r => r.onchange = () => saveSettings({mode: r.value}));
+document.querySelectorAll('[data-opt]').forEach(c => c.onchange = async () => {
+  // browser mode: ask for permission when notifications are turned on
+  if (c.dataset.opt === "notifications" && c.checked && !S.desktop && "Notification" in window && Notification.permission === "default")
+    await Notification.requestPermission();
+  saveSettings({[c.dataset.opt]: c.checked});
+});
+$("#add-game-btn").onclick = () => {
+  const name = $("#add-game-txt").value.trim() || $("#add-game-sel").value;
+  if (!name) return;
+  if (S.settings.priority_games.some(x => x.toLowerCase() === name.toLowerCase())) return toast(t("ui.already_listed"));
+  $("#add-game-txt").value = ""; toggleList("priority_games", name);
+};
+$("#ex-game-btn").onclick = () => { const n = $("#ex-game-sel").value; if (n && !S.settings.excluded_games.includes(n)) toggleList("excluded_games", n); };
+
+// ---------------------------------------------------------------- custom watch
+const CSTATE_CLS = {watching: "ok", offline: "warn", not_found: "bad", queued: "", done: "ok", stopped: ""};
+const cstate = s => [t("ui.cstate_" + s), CSTATE_CLS[s] ?? ""];
+function renderCustom() {
+  const q = S.custom_queue;
+  $("#custom-list").innerHTML = q.length ? q.map((it, i) => {
+    const w = it.watched_seconds / 60, [lbl, cls] = cstate(i === 0 ? it.state : "queued");
+    return `<li><b>${i + 1}.</b><div class="t"><div class="row" style="gap:8px"><a href="https://twitch.tv/${esc(it.channel)}" target="_blank"><b>${esc(it.display_name || it.channel)}</b></a>
+      <span class="badge ${cls}">${esc(lbl)}</span></div>
+      <div class="small muted">${esc(t("ui.watched"))}: <b>${fmtMin(w)}</b> / ${it.minutes ? fmtMin(it.minutes) + ` · ${esc(t("ui.remaining"))}: ${fmtMin(it.minutes - w)}` : esc(t("ui.unlimited_lc"))}</div>
+      ${it.minutes ? `<div style="margin-top:4px">${bar(w, it.minutes)}</div>` : ""}</div>
+      <button class="btn sec small" data-cmv="${it.id}|-1" ${i === 0 ? "disabled" : ""}>▲</button>
+      <button class="btn sec small" data-cmv="${it.id}|1" ${i === q.length - 1 ? "disabled" : ""}>▼</button>
+      <button class="btn danger small" data-crm="${it.id}">${esc(i === 0 ? t("ui.stop") : t("ui.remove"))}</button></li>`;
+  }).join("") : `<li class="muted small">${esc(t("ui.list_empty"))}</li>`;
+  $("#custom-history").innerHTML = S.custom_history.length ? S.custom_history.slice().reverse().map(it => {
+    const [lbl, cls] = cstate(it.state);
+    return `<li><div class="t"><b>${esc(it.display_name || it.channel)}</b> <span class="badge ${cls}">${esc(lbl)}</span>
+      <div class="small muted">${esc(t("ui.watched_for", {time: fmtMin(it.watched_seconds / 60)}))} · ${fmtDate(it.finished_at)}</div></div></li>`;
+  }).join("") : `<li class="muted small">${esc(t("ui.no_history"))}</li>`;
+  document.querySelectorAll("[data-cmv]").forEach(b => b.onclick = () => { const [id, d] = b.dataset.cmv.split("|"); api("/api/custom/move", {id, direction: +d}).then(poll); });
+  document.querySelectorAll("[data-crm]").forEach(b => b.onclick = () => api("/api/custom/remove", {id: b.dataset.crm}).then(poll));
+}
+$("#c-unlimited").onchange = e => { $("#c-hours").disabled = $("#c-mins").disabled = e.target.checked; };
+$("#c-add").onclick = async () => {
+  const channel = $("#c-channel").value.trim();
+  if (!channel) return toast(t("ui.enter_channel"));
+  const minutes = $("#c-unlimited").checked ? 0 : (+$("#c-hours").value || 0) * 60 + (+$("#c-mins").value || 0);
+  if (!$("#c-unlimited").checked && minutes <= 0) return toast(t("ui.enter_duration"));
+  const j = await api("/api/custom/add", {channel, minutes});
+  if (j.ok) { $("#c-channel").value = ""; toast(t("ui.added", {channel: j.item.channel})); poll(); }
+};
+
+// ---------------------------------------------------------------- reward history
+let histRendered = false;
+["#h-search", "#h-game", "#h-period"].forEach(s => $(s).addEventListener("input", renderHistory));
+async function loadHistory() {
+  if (!S) return;
+  if (S.history_version !== histVersion) {
+    const j = await api("/api/history");
+    HIST = j.history; histVersion = j.version;
+    histRendered = false;
+  }
+  if (!histRendered) renderHistory();
+}
+function renderHistory() {
+  histRendered = true;
+  const games = [...new Set(HIST.map(h => h.game).filter(Boolean))].sort((a, b) => a.localeCompare(b, LOC()));
+  fillSelect("#h-game", t("ui.all_games"), games);
+  const q = $("#h-search").value.trim().toLowerCase(), g = $("#h-game").value, days = +$("#h-period").value;
+  const since = days ? Date.now() - days * 86400000 : 0;
+  const list = HIST.filter(h => (!g || h.game === g) && (!since || new Date(h.time) >= since)
+    && (!q || [h.game, h.campaign, h.drop, ...(h.rewards || []).map(r => r.name)].join(" ").toLowerCase().includes(q)));
+  const count = arr => arr.reduce((n, h) => n + (h.count || 1), 0);
+  const month = Date.now() - 30 * 86400000;
+  $("#hist-stats").innerHTML = [
+    [count(HIST), t("ui.hist_total")], [games.length, t("ui.hist_games")],
+    [count(HIST.filter(h => new Date(h.time) >= month)), t("ui.hist_30d")],
+    [count(HIST.filter(h => h.source === "app")), t("ui.hist_by_app")],
+  ].map(([v, l]) => `<div class="stat"><b>${num(v)}</b><span>${esc(l)}</span></div>`).join("");
+  if (!list.length) { $("#history").innerHTML = `<div class="empty">${esc(HIST.length ? t("ui.no_match") : t("ui.hist_empty"))}</div>`; return; }
+  let day = "", html = "";
+  for (const h of list) {
+    const dk = new Date(h.time).toDateString();
+    if (dk !== day) { day = dk; html += `<div class="hist-day">${esc(fmtDay(h.time))}</div>`; }
+    const rw = h.rewards || [];
+    html += `<div class="hist-item">
+      ${rw.map(r => `<img class="reward-img" alt="" onerror="this.style.opacity=.15" src="${esc(r.image)}" title="${esc(r.name)}">`).join("")}
+      <div class="grow"><b>${esc(rw.map(r => r.name).join(", ") || h.drop)}</b>${h.count > 1 ? ` <span class="badge">×${h.count}</span>` : ""}
+        <div class="small muted">${esc([h.game, h.campaign].filter(Boolean).join(" · ") || "-")}</div></div>
+      ${h.source === "twitch" ? `<span class="badge" title="${esc(t("ui.hist_imported_tip"))}">${esc(t("ui.hist_imported"))}</span>` : ""}
+      <span class="small muted">${fmtTime(h.time)}</span></div>`;
+  }
+  $("#history").innerHTML = html;
+}
+
+// check account links automatically after coming back from a "Link account" page
+let linkClickedAt = 0;
+document.addEventListener("click", e => { if (e.target.closest("a[data-link]")) linkClickedAt = Date.now(); });
+window.addEventListener("focus", () => {
+  if (linkClickedAt && Date.now() - linkClickedAt < 30 * 60000) {
+    linkClickedAt = 0;
+    api("/api/refresh", {}).then(() => toast(t("ui.toast_checking_links")));
+  }
+});
+
+// ---------------------------------------------------------------- main loop
+let lastSettings = "";
+function forceReload() { campVersion = -1; poll(); }
+async function poll() {
+  try { S = await (await fetch("/api/state")).json(); }
+  catch (e) { $("#status").textContent = L["ui.server_down"] || "Cannot reach the app — is it running?"; return; }
+  if (S.lang !== curLang) await loadLang(S.lang);
+  renderLoading(); renderUpdate(); handleEvents();
+  renderLogin(); renderPanel(); renderCustom();
+  const sj = JSON.stringify(S.settings) + S.games.join() + curLang;
+  if (sj !== lastSettings) { lastSettings = sj; fillGameSelects(); renderPrio(); }
+  $("#camp-updated").textContent = S.campaigns_updated ? t("ui.last_update", {time: fmtDate(S.campaigns_updated)}) : "";
+  if (S.campaigns_version !== campVersion) {
+    campVersion = S.campaigns_version;
+    const j = await api("/api/campaigns");
+    CAMPS = j.campaigns; campVersion = j.version;
+    if (tabActive("drops")) { const y = window.scrollY; renderCampaigns(); window.scrollTo(0, y); }
+  }
+  if (tabActive("history")) loadHistory();
+}
+poll(); setInterval(poll, 2500);
+setInterval(() => { if (tabActive("drops")) { const y = window.scrollY; renderCampaigns(); window.scrollTo(0, y); } }, 60000);
+</script>
+</body>
+</html>

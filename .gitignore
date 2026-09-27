@@ -1,0 +1,22 @@
+# Runtime data: login token (auth.json), settings, history, cache, logs. Never commit.
+data/
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+
+# Build output
+build/
+dist/
+*.spec
+
+# Local notes for Claude Code (not part of the repository)
+CLAUDE.md
+.claude/
+
+# Editors / OS
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini

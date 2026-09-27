@@ -1,0 +1,173 @@
+<div align="center">
+
+<img src="assets/icon.png" alt="Eld's TTVDropMiner logo" width="110">
+
+# Eld's TTVDropMiner
+
+**Farm Twitch Drops while you're AFK, without downloading a single frame of video.**
+
+[![Latest release](https://img.shields.io/github/v/release/byEldrithc/Elds-TTVDropMiner?style=for-the-badge&label=release&color=9146FF)](../../releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/byEldrithc/Elds-TTVDropMiner/total?style=for-the-badge&color=9146FF)](../../releases)
+[![License](https://img.shields.io/badge/license-PolyForm%20NC%201.0-orange?style=for-the-badge)](LICENSE.md)
+
+[![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D6?style=flat-square&logo=windows&logoColor=white)](#-installation)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white)](#from-source)
+[![Twitch Drops](https://img.shields.io/badge/Twitch-Drops-9146FF?style=flat-square&logo=twitch&logoColor=white)](https://www.twitch.tv/drops/campaigns)
+[![Languages](https://img.shields.io/badge/languages-7-2ea44f?style=flat-square&logo=googletranslate&logoColor=white)](#-languages)
+[![No telemetry](https://img.shields.io/badge/telemetry-none-2ea44f?style=flat-square)](TERMS.md#7-privacy)
+
+[**⬇️ Download**](../../releases/latest) · [Features](#-features) · [Installation](#-installation) · [Usage](#-usage) · [Terms of Use](TERMS.md)
+
+<img src="docs/screenshots/dashboard.jpg" alt="Dashboard" width="850">
+
+</div>
+
+---
+
+## ✨ Features
+
+| | |
+|---|---|
+| 🔎 **Finds every campaign** | Scans the drop-enabled streams of the top games and your priority games. It also finds streamer-specific campaigns and ones whose streamers are offline right now. |
+| 📺 **Picks the right channel** | Checks that the channel really gives progress, and switches channel automatically when a stream stalls. |
+| ✅ **Real progress checks** | Checks progress against your Twitch inventory every minute. It also tracks several drops that progress on the same stream. |
+| 🎁 **Auto-claim** | Claims rewards the moment they are ready, and collects channel points bonuses too. |
+| ⭐ **Priorities** | Pin drops, order games or exclude games. Mine only your picks, or your picks first and then everything else. |
+| 👀 **Custom watch** | Queue streamers to watch for a set time before drop mining continues. |
+| 📜 **Reward history** | Kept between sessions. Rewards you claimed earlier are imported from your Twitch inventory. |
+| 🔔 **Notifications** | Windows notifications for claimed rewards, required logins and new versions. |
+| 🪟 **Desktop app** | Runs in its own window, hides to the system tray and can start with Windows. |
+| 🌍 **7 languages** | Detects your Windows language automatically. |
+| 🪶 **Lightweight** | No video or audio is downloaded, so it uses almost no bandwidth or CPU. |
+
+<details>
+<summary><b>📸 More screenshots</b></summary>
+<br>
+
+| Drops | Reward history |
+|:---:|:---:|
+| <img src="docs/screenshots/drops.jpg" alt="Drops tab" width="420"> | <img src="docs/screenshots/history.jpg" alt="Reward history" width="420"> |
+
+| Priorities |
+|:---:|
+| <img src="docs/screenshots/priorities.jpg" alt="Priorities tab" width="420"> |
+
+</details>
+
+## ⚠️ Read this before installing
+
+> [!WARNING]
+> **Using this app can get your Twitch account locked, suspended or banned.**
+>
+> - Automated watching is **against [Twitch's Terms of Service](https://www.twitch.tv/p/legal/terms-of-service/)**.
+>   Twitch or a game publisher may lock your account, ask for CAPTCHAs, void your Drops,
+>   or suspend or ban your Twitch or game account, at any time and without warning.
+> - **You use this app entirely at your own risk.** The author is not responsible for lost
+>   accounts, Drops, items or anything else, and cannot restore or compensate them.
+> - The app comes **as is, with no warranty**. It may stop working whenever Twitch changes
+>   its site or API.
+> - This project is **not affiliated with or endorsed by Twitch**, Amazon, or any game
+>   publisher or streamer.
+> - Don't use it on an account you can't afford to lose.
+
+> [!IMPORTANT]
+> By installing or using the app you agree to the **[Terms of Use](TERMS.md)**.
+
+## 📦 Installation
+
+### Installer (recommended)
+
+1. Download **`EldsTTVDropMiner-vX.Y.Z-Setup.exe`** from the [latest release](../../releases/latest).
+2. Run it. No admin rights are needed.
+
+- The installer offers a desktop shortcut and **start with Windows** (the app then starts hidden in the tray).
+- The app is installed to `%LOCALAPPDATA%\Programs\EldsTTVDropMiner`.
+- Your data (settings, login, history, log) lives in `%LOCALAPPDATA%\EldsTTVDropMiner\data`.
+
+> [!NOTE]
+> The installer is not code-signed, so Windows SmartScreen may warn you the first time.
+> Click **More info → Run anyway**.
+
+### From source
+
+Requires **Python 3.10+** on Windows.
+
+1. Download the source ZIP from the [latest release](../../releases/latest) and extract it.
+2. Double-click **`Start.bat`**. The first run creates a virtual environment and installs the requirements.
+
+When you run from source, your data is kept in the `data\` folder next to the code.
+If you prefer the dashboard in your browser, run `.venv\Scripts\python.exe main.py` instead
+and open <http://127.0.0.1:8765>.
+
+## 🚀 Usage
+
+1. **Log in:** on first launch the dashboard shows an 8-character code. Enter it at
+   [twitch.tv/activate](https://www.twitch.tv/activate). You only need to do this once.
+2. **Link your game accounts** to Twitch. Most game drops can't be claimed without a link, and
+   the **Drops** tab shows a *Link account* button for each campaign that needs one.
+3. **Set priorities** (optional) on the **Priorities** tab.
+4. **Leave it running.** Closing the window hides the app to the tray. To stop it, choose
+   **Quit** from the tray menu.
+
+> [!TIP]
+> Only one copy runs at a time, because Twitch counts a single watcher per account.
+> Opening the app again just brings the existing window to the front.
+
+## 🌍 Languages
+
+English · Türkçe · Español · Português (Brasil) · Deutsch · Français · Русский
+
+The strings live in `locales/<code>.json`. To add or improve a language:
+
+1. Copy `locales/en.json` to a new file.
+2. Translate the values, keeping the `{placeholders}`, and set `_meta.name`.
+3. Run `python tools/check_locales.py`.
+
+A key ending in `_one` is an optional singular form, used when a count is 1.
+Pull requests with translations are welcome!
+
+## 🛠️ Building
+
+```bat
+build.bat
+```
+
+The script does the following:
+1. Checks the translations.
+2. Builds `dist\EldsTTVDropMiner\` with PyInstaller.
+3. Creates `dist\EldsTTVDropMiner-v<version>-Setup.exe` with
+   [Inno Setup 6](https://jrsoftware.org/isinfo.php), which you can install with
+   `winget install JRSoftware.InnoSetup`.
+
+The version number lives in `version.py`. So does the GitHub owner/repo used by the update
+check, which is skipped while those are placeholders.
+
+## 🗂️ Project layout
+
+| File | Purpose |
+|---|---|
+| `app.py` | Desktop app: window (WebView2), tray icon, start with Windows |
+| `main.py` | Local web server and API. Also runs on its own in browser mode |
+| `miner.py` | Mining engine: campaign ranking, channel selection, progress, claiming, history |
+| `twitch_api.py` | Client for Twitch's GQL API: login, campaign discovery, watch signal |
+| `i18n.py`, `locales/` | Translations |
+| `web/index.html` | The dashboard (single page, no build step) |
+| `version.py` | App name, version, GitHub repository |
+
+## 📄 License
+
+Copyright (c) 2026 **Eldrithc_**. Licensed under the
+**[PolyForm Noncommercial License 1.0.0](LICENSE.md)**. Here is a summary; the license and
+the [Terms of Use](TERMS.md) are what count:
+
+| | |
+|:---:|---|
+| ✅ | You may use, change and share the app **for noncommercial purposes**. |
+| ❌ | You may not sell it, offer it as a paid service, or make money with it in any other way. |
+| 📝 | When you share it or a modified version, include the license and credit the original: *"Based on Eld's TTVDropMiner by Eldrithc_"*. |
+| 🏷️ | A fork may keep the name only with a suffix that names its author, for example **"Eld's TTVDropMiner forked by YourName"**. |
+
+<div align="center">
+<br>
+<sub>Made by <b>Eldrithc_</b> · Not affiliated with Twitch</sub>
+</div>
