@@ -32,7 +32,7 @@ DEFAULT_SETTINGS = {
     "priority_games": [],       # priority game names (ordered)
     "excluded_games": [],       # games that are never watched
     "priority_drops": [],       # [{id, name, game, campaign}] (ordered)
-    "mode": "priority_first",   # priority_first | priority_only
+    "mode": "priority_only",    # priority_first | priority_only
     "allow_unlinked": False,    # also watch campaigns whose game account is not linked
     "auto_claim": True,
     "claim_points": True,
