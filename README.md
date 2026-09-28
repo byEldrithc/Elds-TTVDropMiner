@@ -1,10 +1,12 @@
 <div align="center">
 
-<img src="assets/icon.png" alt="Eld's TTVDropMiner logo" width="110">
+<img src="assets/icon.png" alt="Eld's TTVDropMiner, a Twitch Drops miner for Windows" width="110">
 
 # Eld's TTVDropMiner
 
-**Farm Twitch Drops while you're AFK, without downloading a single frame of video.**
+### Free Twitch Drops miner for Windows
+
+**Farm and auto-claim Twitch Drops while you're AFK, without downloading a single frame of video.**
 
 [![Latest release](https://img.shields.io/github/v/release/byEldrithc/Elds-TTVDropMiner?style=for-the-badge&label=release&color=9146FF)](../../releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/byEldrithc/Elds-TTVDropMiner/total?style=for-the-badge&color=9146FF)](../../releases)
@@ -19,11 +21,17 @@
 
 [**⬇️ Download**](../../releases/latest) · [Features](#-features) · [Installation](#-installation) · [Usage](#-usage) · [Terms of Use](TERMS.md) · [☕ Support](#-support)
 
-<img src="docs/screenshots/dashboard.jpg" alt="Dashboard" width="850">
+<img src="docs/screenshots/dashboard.jpg" alt="Eld's TTVDropMiner dashboard mining Twitch Drops" width="850">
 
 </div>
 
 ---
+
+Eld's TTVDropMiner is a free, open-source **Twitch Drops miner** (also called a Twitch drop farmer)
+for Windows 10 and 11. It watches drop-enabled Twitch streams in the background without playing
+any video, tracks your drop progress, switches channels when a stream goes offline and claims
+every reward automatically, including channel points. Log in once, set the games you care
+about and leave it running.
 
 ## ✨ Features
 
@@ -48,11 +56,11 @@
 
 | Drops | Reward history |
 |:---:|:---:|
-| <img src="docs/screenshots/drops.jpg" alt="Drops tab" width="420"> | <img src="docs/screenshots/history.jpg" alt="Reward history" width="420"> |
+| <img src="docs/screenshots/drops.jpg" alt="Twitch Drops campaigns and progress" width="420"> | <img src="docs/screenshots/history.jpg" alt="Claimed Twitch Drops reward history" width="420"> |
 
 | Priorities |
 |:---:|
-| <img src="docs/screenshots/priorities.jpg" alt="Priorities tab" width="420"> |
+| <img src="docs/screenshots/priorities.jpg" alt="Game and drop priorities" width="420"> |
 
 </details>
 
@@ -143,6 +151,45 @@ The script does the following:
 
 The version number lives in `version.py`. So does the GitHub owner/repo used by the update
 check, which is skipped while those are placeholders.
+
+## ❓ FAQ
+
+<details>
+<summary><b>How do I farm Twitch Drops automatically?</b></summary>
+<br>
+Install the app, log in with the code it shows at twitch.tv/activate and link your game
+accounts to Twitch. The miner then finds active drop campaigns, watches a stream that gives
+progress and claims each drop as soon as it is ready.
+</details>
+
+<details>
+<summary><b>Does it download or play the stream?</b></summary>
+<br>
+No. It sends the same "minute watched" signal the Twitch player sends, so it uses almost no
+bandwidth or CPU. You can keep using your PC or play games while it runs.
+</details>
+
+<details>
+<summary><b>Is it safe to use? Can I get banned?</b></summary>
+<br>
+The app doesn't collect any data and only talks to Twitch, GitHub and your local Discord client.
+Automated watching is still against Twitch's Terms of Service, so there is always a risk to your
+account. Read <a href="#%EF%B8%8F-read-this-before-installing">Read this before installing</a>.
+</details>
+
+<details>
+<summary><b>Why isn't my drop progressing?</b></summary>
+<br>
+Most often the game account isn't linked to Twitch, or the campaign only counts on certain
+channels. The Drops tab shows a <i>Link account</i> button when a link is needed, and the miner
+switches channel on its own when a stream stops giving progress.
+</details>
+
+<details>
+<summary><b>Does it work on macOS or Linux?</b></summary>
+<br>
+Not officially. The desktop app, tray and installer are Windows-only.
+</details>
 
 ## ☕ Support
 
