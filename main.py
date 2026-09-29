@@ -84,7 +84,8 @@ def make_app(miner: Miner, on_show: Callable[[], None] | None = None) -> web.App
 
     @routes.get("/")
     async def index(_):
-        return web.FileResponse(WEB_DIR / "index.html")
+        # revalidate every load, or the WebView keeps showing the old page after an update
+        return web.FileResponse(WEB_DIR / "index.html", headers={"Cache-Control": "no-cache"})
 
     @routes.get("/api/state")
     async def state(_):

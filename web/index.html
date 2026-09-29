@@ -344,7 +344,7 @@ function num(n) { return Number(n || 0).toLocaleString(LOC()); }
 const DROP_STATE_CLS = {claimed: "ok", claimable: "gold", pending_claim: "gold", in_progress: "acc", available: "",
   locked: "warn", not_started: "warn", expired: "bad", sub_only: "warn", unavailable: "bad"};
 const dropState = s => [t("ui.state_" + s), DROP_STATE_CLS[s] ?? ""];
-const benefitType = ty => ({BADGE: t("ui.benefit_badge"), EMOTE: t("ui.benefit_emote"), DIRECT_ENTITLEMENT: t("ui.benefit_ingame")})[ty] || esc(ty || "");
+const benefitType = ty => ({BADGE: t("ui.benefit_badge"), EMOTE: t("ui.benefit_emote"), DIRECT_ENTITLEMENT: t("ui.benefit_ingame"), CODE: t("ui.benefit_code")})[ty] || esc(ty || "");
 
 // ---------------------------------------------------------------- tabs
 function openTab(name) {
@@ -559,7 +559,7 @@ function renderCamp(c) {
   const stBadge = c.state === "active" ? `<span class="badge ok">${esc(t("ui.camp_active"))} · ${esc(timeLeft(c.ends_at))}</span>`
     : c.state === "upcoming" ? `<span class="badge warn">${esc(t("ui.camp_starts_in", {time: timeUntil(c.starts_at)}))}</span>` : `<span class="badge bad">${esc(t("ui.camp_ended"))}</span>`;
   const link = c.linked ? `<span class="badge ok">${esc(t("ui.linked"))} ✓</span>`
-    : c.eligible_by_badge ? `<span class="badge">${esc(t("ui.no_link_needed"))}</span>`
+    : c.no_link_needed ? `<span class="badge">${esc(t("ui.no_link_needed"))}</span>`
     : `<span class="badge bad">${esc(t("ui.not_linked"))}</span>${c.link_url ? ` <a class="btn small gold" data-link="1" href="${esc(c.link_url)}" target="_blank">${esc(t("ui.link_account"))} ↗</a>` : ""} <button class="btn small sec" data-recheck="1">↻ ${esc(t("ui.recheck"))}</button>`;
   const acl = c.acl.length ? `<details data-cid="${esc(c.id)}"><summary>${esc(t("ui.acl_only", {n: c.acl.length}))}</summary><div class="acl">${c.acl.map(a => `<a class="badge" href="https://twitch.tv/${esc(a.login)}" target="_blank">${esc(a.display_name)}</a>`).join("")}</div></details>`
     : `<div class="small muted">${esc(t("ui.acl_all"))}</div>`;

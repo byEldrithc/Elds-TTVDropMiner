@@ -11,6 +11,7 @@ import json
 import logging
 import sys
 import threading
+import time
 import urllib.request
 import webbrowser
 import winreg
@@ -229,7 +230,9 @@ class DesktopApp:
         self.tray.run_detached()
         threading.Thread(target=self._tray_status_loop, daemon=True).start()
 
-        self.window = webview.create_window(APP_NAME, self.url, width=1280, height=860,
+        # a per-launch query string skips any page the WebView cached from an older version
+        self.window = webview.create_window(APP_NAME, f"{self.url}/?v={int(time.time())}",
+                                            width=1280, height=860,
                                             min_size=(900, 600), hidden=self.start_hidden,
                                             background_color="#0e0e10")
         self.window.events.closing += self._on_closing

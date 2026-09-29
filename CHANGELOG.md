@@ -3,6 +3,16 @@
 All notable changes to Eld's TTVDropMiner are listed here.
 The project uses [semantic versioning](https://semver.org/).
 
+## [1.1.2] - 2026-09-29
+
+### Fixed
+- **Drops that give a code no longer ask you to link an account.** Campaigns whose reward is
+  a code (for example Minecraft's Aurora Cape, redeemed on minecraft.net) were shown as
+  "Not linked" and never mined. They are now marked "No link needed (badge/emote/code)" and mined like badge and
+  emote drops. The reward type shows as "Code" instead of the raw "CODE".
+- After an update, the desktop window could keep showing the old dashboard from its cache.
+  It now always loads the current version.
+
 ## [1.1.1] - 2026-09-27
 
 ### Added
@@ -36,6 +46,7 @@ The project uses [semantic versioning](https://semver.org/).
 
 First public release.
 
+[1.1.2]: https://github.com/byEldrithc/Elds-TTVDropMiner/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/byEldrithc/Elds-TTVDropMiner/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/byEldrithc/Elds-TTVDropMiner/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/byEldrithc/Elds-TTVDropMiner/releases/tag/v1.0.0

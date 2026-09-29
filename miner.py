@@ -280,7 +280,8 @@ class Miner:
                 "benefits": benefits,
             })
         linked = bool((raw.get("self") or {}).get("isAccountConnected"))
-        badge_emote = any(b["type"] in ("BADGE", "EMOTE") for d in drops for b in d["benefits"])
+        # badges, emotes and codes land in the Twitch inventory; no game account link needed
+        no_link = any(b["type"] in ("BADGE", "EMOTE", "CODE") for d in drops for b in d["benefits"])
         return {
             "id": raw["id"], "name": raw.get("name"),
             "description": raw.get("description") or "",
@@ -294,7 +295,7 @@ class Miner:
             "details_url": raw.get("detailsURL"),
             "link_url": raw.get("accountLinkURL"),
             "linked": linked,
-            "eligible_by_badge": badge_emote,
+            "no_link_needed": no_link,
             "starts_at": c_start, "ends_at": c_end,
             "acl": acl,
             "seen_channels": raw.get("_seen_channels") or [],
@@ -353,7 +354,7 @@ class Miner:
                 and c["starts_at"] <= now < c["ends_at"])
 
     def _campaign_eligible(self, c: dict) -> bool:
-        return c["linked"] or c["eligible_by_badge"] or self.settings["allow_unlinked"]
+        return c["linked"] or c["no_link_needed"] or self.settings["allow_unlinked"]
 
     @staticmethod
     def _drop_map(c: dict) -> dict:
